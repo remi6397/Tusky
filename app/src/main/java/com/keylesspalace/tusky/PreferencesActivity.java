@@ -49,14 +49,14 @@ public class PreferencesActivity extends BaseActivity
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         switch (preferences.getString("appTheme", "dark")) {
             case "night":
-                ((TuskyApplication) getApplication()).getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+                TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
                 break;
             default:
             case "light":
-                ((TuskyApplication) getApplication()).getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
+                TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
                 break;
             case "dark":
-                ((TuskyApplication) getApplication()).getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
+                TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
                 break;
         }
 
