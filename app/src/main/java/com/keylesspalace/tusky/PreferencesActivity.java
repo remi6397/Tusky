@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
+import android.support.v13.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -92,6 +94,7 @@ public class PreferencesActivity extends BaseActivity
         boolean daylightTheme = preferences.getBoolean("daylightTheme", false);
 
         if (daylightTheme) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
         } else {
             switch (themeFlavor) {
