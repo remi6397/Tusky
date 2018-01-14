@@ -39,12 +39,15 @@ import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.network.AuthInterceptor;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.OkHttpUtils;
+import com.keylesspalace.tusky.util.ResourcesUtils;
 
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.support.v7.app.AppCompatDelegate.setDefaultNightMode;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -66,18 +69,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:night").split(":");
         String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
 
-        setTheme(getResources().getIdentifier(appTheme, "style", getPackageName()));
+        setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
         boolean daylightTheme = preferences.getBoolean("daylightTheme", false);
         if (daylightTheme) {
-            TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+            setDefaultNightMode(UiModeManager.MODE_NIGHT_AUTO);
         } else {
             switch (themeFlavor) {
                 case "night":
-                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
+                    setDefaultNightMode(UiModeManager.MODE_NIGHT_YES);
                     break;
                 case "day":
-                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
+                    setDefaultNightMode(UiModeManager.MODE_NIGHT_NO);
                     break;
             }
         }

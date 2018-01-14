@@ -29,6 +29,9 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.keylesspalace.tusky.fragment.PreferencesFragment;
+import com.keylesspalace.tusky.util.ResourcesUtils;
+
+import static android.support.v7.app.AppCompatDelegate.setDefaultNightMode;
 
 public class PreferencesActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -77,7 +80,7 @@ public class PreferencesActivity extends BaseActivity
         boolean daylightTheme = preferences.getBoolean("daylightTheme", false);
 
         // Set theme based on preference
-        setTheme(getResources().getIdentifier(appTheme, "style", getPackageName()));
+        setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
         if (!themeFlavor.equals("default")) {
             PreferencesFragment preferencesFragment = (PreferencesFragment)getFragmentManager().findFragmentById(R.id.fragment_container);
@@ -89,15 +92,15 @@ public class PreferencesActivity extends BaseActivity
         }
 
         if (daylightTheme) {
-            TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+            setDefaultNightMode(UiModeManager.MODE_NIGHT_AUTO);
         } else {
             switch (themeFlavor) {
                 case "night":
-                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
+                    setDefaultNightMode(UiModeManager.MODE_NIGHT_YES);
                     break;
                 default:
                 case "day":
-                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
+                    setDefaultNightMode(UiModeManager.MODE_NIGHT_NO);
                     break;
             }
         }

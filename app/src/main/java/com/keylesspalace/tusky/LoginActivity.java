@@ -44,6 +44,8 @@ import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.CustomTabsHelper;
 import com.keylesspalace.tusky.util.NotificationManager;
 import com.keylesspalace.tusky.util.OkHttpUtils;
+import com.keylesspalace.tusky.util.ResourcesUtils;
+import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +55,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.support.v7.app.AppCompatDelegate.setDefaultNightMode;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity"; // logging tag
@@ -74,19 +78,19 @@ public class LoginActivity extends AppCompatActivity {
                 .getString("appTheme", "AppTheme:night").split(":");
         String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
 
-        setTheme(getResources().getIdentifier(appTheme, "style", getPackageName()));
+        setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
         boolean daylightTheme = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("daylightTheme", false);
         if (daylightTheme) {
-            TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+            setDefaultNightMode(UiModeManager.MODE_NIGHT_AUTO);
         } else {
             switch (themeFlavor) {
                 case "night":
-                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
+                    setDefaultNightMode(UiModeManager.MODE_NIGHT_YES);
                     break;
                 case "day":
-                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
+                    setDefaultNightMode(UiModeManager.MODE_NIGHT_NO);
                     break;
             }
         }
@@ -253,11 +257,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private static boolean openInCustomTab(Uri uri, Context context) {
-        TypedValue toolbarColorTv = new TypedValue();
-        context.getTheme().resolveAttribute(
-                context.getResources().getIdentifier("custom_tab_toolbar", "attr", context.getPackageName()), toolbarColorTv, true);
+        int toolbarColor = ThemeUtils.getColorById(context, "custom_tab_toolbar");
 
-        int toolbarColor = ContextCompat.getColor(context, toolbarColorTv.resourceId);
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.setToolbarColor(toolbarColor);
         CustomTabsIntent customTabsIntent = builder.build();
