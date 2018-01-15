@@ -161,7 +161,7 @@
 
     <string-array name="app_theme_names">
         <item>Tusky</item>
-        <item>Ciemny Tusky</item>
+        <item>Jasny Tusky</item>
     </string-array>
 
     <string name="pref_daylight_theme">Automatyczny tryb dzienny/nocny</string>
