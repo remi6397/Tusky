@@ -54,7 +54,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static android.support.v7.app.AppCompatDelegate.getDefaultNightMode;
 import static android.support.v7.app.AppCompatDelegate.setDefaultNightMode;
 
 public class LoginActivity extends AppCompatActivity {
