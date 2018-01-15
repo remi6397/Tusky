@@ -54,6 +54,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.support.v7.app.AppCompatDelegate.getDefaultNightMode;
 import static android.support.v7.app.AppCompatDelegate.setDefaultNightMode;
 
 public class LoginActivity extends AppCompatActivity {
@@ -73,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         String[] themeFlavorPair = PreferenceManager.getDefaultSharedPreferences(this)
-                .getString("appTheme", "AppTheme:night").split(":");
+                .getString("appTheme", "AppTheme:default_night").split(":");
         String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
 
         setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
@@ -84,10 +85,15 @@ public class LoginActivity extends AppCompatActivity {
             setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
         } else {
             switch (themeFlavor) {
+                default:
+                    if (themeFlavor.endsWith("_night"))
+                        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    else
+                        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    break;
                 case "night":
                     setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     break;
-                default:
                 case "day":
                     setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     break;
